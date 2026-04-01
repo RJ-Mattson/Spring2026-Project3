@@ -1,6 +1,6 @@
 ﻿namespace Spring2026_Project3_RJmattson.Models
 {
-    public class Class
+    public class Movie
     {
         public int Id { get; set; }
         public string Title { get; set; }

@@ -1,6 +1,6 @@
 ﻿namespace Spring2026_Project3_RJmattson.Models
 {
-    public class ActorMovieRel
+    public class MovieActorRel
     {
 
         public int ActorId { get; set; }
