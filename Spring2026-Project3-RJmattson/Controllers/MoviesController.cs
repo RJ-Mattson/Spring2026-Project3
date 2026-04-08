@@ -10,22 +10,22 @@ using Spring2026_Project3_RJmattson.Models;
 
 namespace Spring2026_Project3_RJmattson.Controllers
 {
-    public class ActorsController : Controller
+    public class MoviesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ActorsController(ApplicationDbContext context)
+        public MoviesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Actors
+        // GET: Movies
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Actors.ToListAsync());
+            return View(await _context.Movies.ToListAsync());
         }
 
-        // GET: Actors/Details/5
+        // GET: Movies/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,48 +33,39 @@ namespace Spring2026_Project3_RJmattson.Controllers
                 return NotFound();
             }
 
-            var actor = await _context.Actors
+            var movie = await _context.Movies
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (actor == null)
+            if (movie == null)
             {
                 return NotFound();
             }
 
-            return View(actor);
+            return View(movie);
         }
 
-        // GET: Actors/Create
+        // GET: Movies/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Actors/Create
+        // POST: Movies/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,gender,Age,Imbdlink,Poster")] Actor actor, IFormFile PosterFile)
+        public async Task<IActionResult> Create([Bind("Id,Title,Genre,ReleaseYear,Poster,Imbdlink")] Movie movie)
         {
-            if (PosterFile != null && PosterFile.Length > 0)
+            if (ModelState.IsValid)
             {
-                using (var ms = new MemoryStream())
-                {
-                    await PosterFile.CopyToAsync(ms);
-                    actor.Poster = ms.ToArray();
-                }
+                _context.Add(movie);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
-
-                if(ModelState.IsValid)
-                {
-                    _context.Add(actor);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
-                }
-            return View(actor);
+            return View(movie);
         }
 
-        // GET: Actors/Edit/5
+        // GET: Movies/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -82,23 +73,23 @@ namespace Spring2026_Project3_RJmattson.Controllers
                 return NotFound();
             }
 
-            var actor = await _context.Actors.FindAsync(id);
-            if (actor == null)
+            var movie = await _context.Movies.FindAsync(id);
+            if (movie == null)
             {
                 return NotFound();
             }
-            return View(actor);
+            return View(movie);
         }
 
-        // POST: Actors/Edit/5
+        // POST: Movies/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,gender,Age,Imbdlink,Poster")] Actor actor, IFormFile? PosterFile)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Genre,ReleaseYear,Poster,Imbdlink")] Movie movie)
         {
-            if (id != actor.Id)
-           {
+            if (id != movie.Id)
+            {
                 return NotFound();
             }
 
@@ -106,24 +97,12 @@ namespace Spring2026_Project3_RJmattson.Controllers
             {
                 try
                 {
-                    if (PosterFile != null && PosterFile.Length > 0)
-                    {
-                        using (var ms = new MemoryStream())
-                        {
-                            await PosterFile.CopyToAsync(ms);
-                            actor.Poster = ms.ToArray();
-                        }
-                    }
-                    else
-                    {
-                        _context.Entry(actor).Property(a => a.Poster).IsModified = false;
-                    }
-                    _context.Update(actor);
+                    _context.Update(movie);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ActorExists(actor.Id))
+                    if (!MovieExists(movie.Id))
                     {
                         return NotFound();
                     }
@@ -134,10 +113,10 @@ namespace Spring2026_Project3_RJmattson.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(actor);
+            return View(movie);
         }
 
-        // GET: Actors/Delete/5
+        // GET: Movies/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -145,34 +124,34 @@ namespace Spring2026_Project3_RJmattson.Controllers
                 return NotFound();
             }
 
-            var actor = await _context.Actors
+            var movie = await _context.Movies
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (actor == null)
+            if (movie == null)
             {
                 return NotFound();
             }
 
-            return View(actor);
+            return View(movie);
         }
 
-        // POST: Actors/Delete/5
+        // POST: Movies/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var actor = await _context.Actors.FindAsync(id);
-            if (actor != null)
+            var movie = await _context.Movies.FindAsync(id);
+            if (movie != null)
             {
-                _context.Actors.Remove(actor);
+                _context.Movies.Remove(movie);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ActorExists(int id)
+        private bool MovieExists(int id)
         {
-            return _context.Actors.Any(e => e.Id == id);
+            return _context.Movies.Any(e => e.Id == id);
         }
     }
 }

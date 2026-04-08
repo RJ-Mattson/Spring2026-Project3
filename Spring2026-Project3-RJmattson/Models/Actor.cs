@@ -10,7 +10,7 @@
         public byte[]? Poster { get; set; }
 
 
-
+        public virtual ICollection<MovieActorRel> MovieActorRels { get; set; }
 
 
     }
