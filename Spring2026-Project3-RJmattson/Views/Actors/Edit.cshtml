@@ -34,9 +34,17 @@
                 <span asp-validation-for="Imbdlink" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Photo" class="control-label"></label>
-                <input asp-for="Photo" class="form-control" />
-                <span asp-validation-for="Photo" class="text-danger"></span>
+                <label>Current Photo</label>
+                <div>
+                    @if (Model.Photo != null)
+                    {
+                        <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Photo)"
+                             style="width:100px; margin-bottom:10px;" />
+                    } 
+                </div>
+                <label> class="control-label">Upload New Photo</label>
+                <input type="file" name="PhotoFile" class="form-control" />
+                <span class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

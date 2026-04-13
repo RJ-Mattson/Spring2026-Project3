@@ -19,14 +19,12 @@ namespace Spring2026_Project3_RJmattson.Controllers
             _context = context;
         }
 
-        // GET: MovieActorRels
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.ActorMovies.Include(m => m.Actor).Include(m => m.Movie);
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: MovieActorRels/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -46,33 +44,36 @@ namespace Spring2026_Project3_RJmattson.Controllers
             return View(movieActorRel);
         }
 
-        // GET: MovieActorRels/Create
         public IActionResult Create()
         {
-            ViewData["ActorId"] = new SelectList(_context.Actors, "Id", "Id");
-            ViewData["MovieId"] = new SelectList(_context.Movies, "Id", "Id");
+            ViewData["ActorId"] = new SelectList(_context.Actors, "Id", "Name");
+            ViewData["MovieId"] = new SelectList(_context.Movies, "Id", "Title");
             return View();
         }
 
-        // POST: MovieActorRels/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,ActorId,MovieId")] MovieActorRel movieActorRel)
         {
+            var exists = await _context.ActorMovies.AnyAsync(ma =>
+                ma.ActorId == movieActorRel.ActorId && ma.MovieId == movieActorRel.MovieId);
+
+            if (exists)
+            {
+                ModelState.AddModelError("", "That actor is already assigned to that movie.");
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(movieActorRel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ActorId"] = new SelectList(_context.Actors, "Id", "Id", movieActorRel.ActorId);
-            ViewData["MovieId"] = new SelectList(_context.Movies, "Id", "Id", movieActorRel.MovieId);
+            ViewData["ActorId"] = new SelectList(_context.Actors, "Id", "Name", movieActorRel.ActorId);
+            ViewData["MovieId"] = new SelectList(_context.Movies, "Id", "Title", movieActorRel.MovieId);
             return View(movieActorRel);
         }
 
-        // GET: MovieActorRels/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -85,14 +86,11 @@ namespace Spring2026_Project3_RJmattson.Controllers
             {
                 return NotFound();
             }
-            ViewData["ActorId"] = new SelectList(_context.Actors, "Id", "Id", movieActorRel.ActorId);
-            ViewData["MovieId"] = new SelectList(_context.Movies, "Id", "Id", movieActorRel.MovieId);
+            ViewData["ActorId"] = new SelectList(_context.Actors, "Id", "Name", movieActorRel.ActorId);
+            ViewData["MovieId"] = new SelectList(_context.Movies, "Id", "Title", movieActorRel.MovieId);
             return View(movieActorRel);
         }
 
-        // POST: MovieActorRels/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,ActorId,MovieId")] MovieActorRel movieActorRel)
@@ -122,12 +120,11 @@ namespace Spring2026_Project3_RJmattson.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ActorId"] = new SelectList(_context.Actors, "Id", "Id", movieActorRel.ActorId);
-            ViewData["MovieId"] = new SelectList(_context.Movies, "Id", "Id", movieActorRel.MovieId);
+            ViewData["ActorId"] = new SelectList(_context.Actors, "Id", "Name", movieActorRel.ActorId);
+            ViewData["MovieId"] = new SelectList(_context.Movies, "Id", "Title", movieActorRel.MovieId);
             return View(movieActorRel);
         }
 
-        // GET: MovieActorRels/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -147,7 +144,6 @@ namespace Spring2026_Project3_RJmattson.Controllers
             return View(movieActorRel);
         }
 
-        // POST: MovieActorRels/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

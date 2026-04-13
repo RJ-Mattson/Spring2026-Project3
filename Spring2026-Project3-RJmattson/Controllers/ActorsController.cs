@@ -89,7 +89,7 @@ namespace Spring2026_Project3_RJmattson.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,gender,Age,Imbdlink,Photo")] Actor actor, IFormFile PhotoFile)
+        public async Task<IActionResult> Create([Bind("Id,Name,gender,Age,Imbdlink")] Actor actor, IFormFile PhotoFile)
         {
             if (PhotoFile != null && PhotoFile.Length > 0)
             {
@@ -100,12 +100,12 @@ namespace Spring2026_Project3_RJmattson.Controllers
                 }
             }
 
-                if(ModelState.IsValid)
-                {
-                    _context.Add(actor);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
-                }
+            if (ModelState.IsValid)
+            {
+                _context.Add(actor);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
             return View(actor);
         }
 
@@ -130,7 +130,7 @@ namespace Spring2026_Project3_RJmattson.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,gender,Age,Imbdlink,Photo")] Actor actor, IFormFile? PhotoFile)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,gender,Age,Imbdlink")] Actor actor, IFormFile? PhotoFile)
         {
             if (id != actor.Id)
            {

@@ -29,14 +29,18 @@
                 <span asp-validation-for="ReleaseYear" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Poster" class="control-label"></label>
-                <input asp-for="Poster" class="form-control" />
-                <span asp-validation-for="Poster" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Imbdlink" class="control-label"></label>
                 <input asp-for="Imbdlink" class="form-control" />
                 <span asp-validation-for="Imbdlink" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Current Poster</label>
+                <div>
+                    @if (Model.Poster != null)
+                    {
+                        <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Poster)"
+                             style="width:100px; margin-bottom:10px;" />
+                    }
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
