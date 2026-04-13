@@ -7,7 +7,7 @@
         public string gender { get; set; }
         public int Age { get; set; }
         public string Imbdlink { get; set; }
-        public byte[]? Poster { get; set; }
+        public byte[]? Photo { get; set; }
 
 
         public virtual ICollection<MovieActorRel> ActorMovies { get; set; } = new List<MovieActorRel>();

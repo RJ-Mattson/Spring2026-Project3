@@ -54,14 +54,14 @@ namespace Spring2026_Project3_RJmattson.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,gender,Age,Imbdlink,Poster")] Actor actor, IFormFile PosterFile)
+        public async Task<IActionResult> Create([Bind("Id,Name,gender,Age,Imbdlink,Photo")] Actor actor, IFormFile PhotoFile)
         {
-            if (PosterFile != null && PosterFile.Length > 0)
+            if (PhotoFile != null && PhotoFile.Length > 0)
             {
                 using (var ms = new MemoryStream())
                 {
-                    await PosterFile.CopyToAsync(ms);
-                    actor.Poster = ms.ToArray();
+                    await PhotoFile.CopyToAsync(ms);
+                    actor.Photo = ms.ToArray();
                 }
             }
 
@@ -95,7 +95,7 @@ namespace Spring2026_Project3_RJmattson.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,gender,Age,Imbdlink,Poster")] Actor actor, IFormFile? PosterFile)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,gender,Age,Imbdlink,Photo")] Actor actor, IFormFile? PhotoFile)
         {
             if (id != actor.Id)
            {
@@ -106,17 +106,17 @@ namespace Spring2026_Project3_RJmattson.Controllers
             {
                 try
                 {
-                    if (PosterFile != null && PosterFile.Length > 0)
+                    if (PhotoFile != null && PhotoFile.Length > 0)
                     {
                         using (var ms = new MemoryStream())
                         {
-                            await PosterFile.CopyToAsync(ms);
-                            actor.Poster = ms.ToArray();
+                            await PhotoFile.CopyToAsync(ms);
+                            actor.Photo = ms.ToArray();
                         }
                     }
                     else
                     {
-                        _context.Entry(actor).Property(a => a.Poster).IsModified = false;
+                        _context.Entry(actor).Property(a => a.Photo).IsModified = false;
                     }
                     _context.Update(actor);
                     await _context.SaveChangesAsync();
