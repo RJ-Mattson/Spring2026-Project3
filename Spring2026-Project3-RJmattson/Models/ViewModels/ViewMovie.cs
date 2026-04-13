@@ -7,13 +7,13 @@ namespace Spring2026_Project3_RJmattson.Models.ViewModels
         public Movie Movie { get; set; }
         public List<Actor> Actors { get; set; }
         public List<ViewAIReview> AIReviews { get; set; }
-        public string AverageSentiment { get; set; }
+        public double AverageSentiment { get; set; }
 
     }
 
     public class ViewAIReview
     {
-        public string Tweet { get; set; }
-        public string Sentiment { get; set; }
+        public string Review { get; set; }
+        public double Sentiment { get; set; }
     }
 }

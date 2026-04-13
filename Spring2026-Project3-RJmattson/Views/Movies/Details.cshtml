@@ -1,48 +1,62 @@
-﻿@model Spring2026_Project3_RJmattson.Models.Movie
+﻿@model Spring2026_Project3_RJmattson.Models.ViewModels.ViewMovie
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Movie Details";
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>Movie</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Genre)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Genre)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ReleaseYear)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ReleaseYear)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Poster)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Poster)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Imbdlink)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Imbdlink)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-4">
+            @if (Model.Movie.Poster != null)
+            {
+                <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Movie.Poster)"
+                     class="img-fluid rounded shadow-lg" alt="@Model.Movie.Title Poster" />
+            }
+            <h1 class="mt-3">@Model.Movie.Title</h1>
+            <p class="badge bg-secondary">@Model.Movie.Genre</p>
+            <p><strong>Released:</strong> @Model.Movie.ReleaseYear</p>
+            <a href="@Model.Movie.Imbdlink" target="_blank" class="btn btn-primary w-100">View on IMDb</a>
+        </div>
+        <div class="col-md-8">
+            <div class="card mb-4 border-0 bg-light shadow-sm text-center">
+                <div class="card-body">
+                    <h4 class="text-muted">Overall Critic Sentiment</h4>
+                    <h1 class="display-3 @(Model.AverageSentiment >= 0 ? "text-success" : "text-danger")">
+                        @Model.AverageSentiment.ToString("F2")
+                    </h1>
+                </div>
+            </div>
+            <div class="mb-4">
+                <h4>Starring</h4>
+                <div class="list-group">
+                    @foreach (var actor in Model.Actors)
+                    {
+                        <a asp-controller="Actors" asp-action="Details" asp-route-id="@actor.Id"
+                           class="list-group-item list-group-item-action">
+                            @actor.Name
+                        </a>
+                    }
+                </div>
+            </div>
+            <h4>AI-Generated Critic Reviews</h4>
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Review Snippet</th>
+                            <th style="width: 100px;">Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var review in Model.AIReviews)
+                        {
+                            <tr>
+                                <td class="font-italic">"@review.Review"</td>
+                                <td>
+                                    <span class="badge @(review.Sentiment >= 0 ? "bg-success" : "bg-danger")">
+                                        @review.Sentiment.ToString("F2")
+                                    </span>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>

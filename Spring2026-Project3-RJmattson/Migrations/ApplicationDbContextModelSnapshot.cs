@@ -8,7 +8,7 @@ using Spring2026_Project3_RJmattson.Data;
 
 #nullable disable
 
-namespace Spring2026_Project3_RJmattson.Data.Migrations
+namespace Spring2026_Project3_RJmattson.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -243,7 +243,7 @@ namespace Spring2026_Project3_RJmattson.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte[]>("Poster")
+                    b.Property<byte[]>("Photo")
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("gender")
@@ -302,9 +302,10 @@ namespace Spring2026_Project3_RJmattson.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ActorId");
-
                     b.HasIndex("MovieId");
+
+                    b.HasIndex("ActorId", "MovieId")
+                        .IsUnique();
 
                     b.ToTable("ActorMovies");
                 });
@@ -363,13 +364,13 @@ namespace Spring2026_Project3_RJmattson.Data.Migrations
             modelBuilder.Entity("Spring2026_Project3_RJmattson.Models.MovieActorRel", b =>
                 {
                     b.HasOne("Spring2026_Project3_RJmattson.Models.Actor", "Actor")
-                        .WithMany("MovieActorRels")
+                        .WithMany("ActorMovies")
                         .HasForeignKey("ActorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Spring2026_Project3_RJmattson.Models.Movie", "Movie")
-                        .WithMany("Movies")
+                        .WithMany("ActorMovies")
                         .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -381,12 +382,12 @@ namespace Spring2026_Project3_RJmattson.Data.Migrations
 
             modelBuilder.Entity("Spring2026_Project3_RJmattson.Models.Actor", b =>
                 {
-                    b.Navigation("MovieActorRels");
+                    b.Navigation("ActorMovies");
                 });
 
             modelBuilder.Entity("Spring2026_Project3_RJmattson.Models.Movie", b =>
                 {
-                    b.Navigation("Movies");
+                    b.Navigation("ActorMovies");
                 });
 #pragma warning restore 612, 618
         }
