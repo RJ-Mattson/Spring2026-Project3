@@ -10,7 +10,7 @@
         public byte[]? Photo { get; set; }
 
 
-        public virtual ICollection<MovieActorRel> ActorMovies { get; set; } = new List<MovieActorRel>();
+        public virtual ICollection<MovieActorRel>? ActorMovies { get; set; } = new List<MovieActorRel>();
 
 
     }

@@ -50,7 +50,7 @@ namespace Spring2026_Project3_RJmattson.Controllers
 
             var endpoint = new Uri(_configuration["AzureOpenAI:Endpoint"]);
             var key = new System.ClientModel.ApiKeyCredential(_configuration["AzureOpenAI:Key"]);
-            ChatClient client = new AzureOpenAIClient(endpoint, key).GetChatClient(_configuration["AzureOpenAI:Deployment"]);
+            ChatClient client = new AzureOpenAIClient(endpoint, key).GetChatClient(_configuration["AzureOpenAI:DeploymentName"]);
 
             var messages = new ChatMessage[] {
             new SystemChatMessage("You are a Twitter API simulator. Provide 10 short tweets about this actor. Separate each tweet with a '|' character only. No numbers."),
@@ -99,7 +99,7 @@ namespace Spring2026_Project3_RJmattson.Controllers
                     actor.Photo = ms.ToArray();
                 }
             }
-
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
             if (ModelState.IsValid)
             {
                 _context.Add(actor);

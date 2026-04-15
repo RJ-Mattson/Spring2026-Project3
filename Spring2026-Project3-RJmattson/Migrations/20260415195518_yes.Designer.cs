@@ -12,8 +12,8 @@ using Spring2026_Project3_RJmattson.Data;
 namespace Spring2026_Project3_RJmattson.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260413044246_Retry")]
-    partial class Retry
+    [Migration("20260415195518_yes")]
+    partial class yes
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

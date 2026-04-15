@@ -8,7 +8,7 @@
         public int ReleaseYear { get; set; }
         public byte[]? Poster { get; set; }
         public string Imbdlink { get; set; }
-        public virtual ICollection<MovieActorRel> ActorMovies { get; set; } = new List<MovieActorRel>();
+        public virtual ICollection<MovieActorRel>? ActorMovies { get; set; } = new List<MovieActorRel>();
 
 
     }

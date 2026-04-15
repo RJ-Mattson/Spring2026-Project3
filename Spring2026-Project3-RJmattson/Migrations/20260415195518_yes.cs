@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Spring2026_Project3_RJmattson.Migrations
 {
     /// <inheritdoc />
-    public partial class Retry : Migration
+    public partial class yes : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

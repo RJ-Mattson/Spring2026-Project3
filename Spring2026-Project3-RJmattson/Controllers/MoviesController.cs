@@ -51,7 +51,7 @@ namespace Spring2026_Project3_RJmattson.Controllers
 
             var endpoint = new Uri(_configuration["AzureOpenAI:Endpoint"]);
             var key = new System.ClientModel.ApiKeyCredential(_configuration["AzureOpenAI:Key"]);
-            ChatClient client = new AzureOpenAIClient(endpoint, key).GetChatClient(_configuration["AzureOpenAI:Deployment"]);
+            ChatClient client = new AzureOpenAIClient(endpoint, key).GetChatClient(_configuration["AzureOpenAI:DeploymentName"]);
 
             var messages = new ChatMessage[] {
             new SystemChatMessage("You are a Movie Reviewer simulator. Generate 5 short movie rewiews about this movie. Separate each review with a '|' character only. No numbers."),
