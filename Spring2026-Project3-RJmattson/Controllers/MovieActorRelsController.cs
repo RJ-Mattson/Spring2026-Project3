@@ -99,7 +99,15 @@ namespace Spring2026_Project3_RJmattson.Controllers
             {
                 return NotFound();
             }
+            var exists = await _context.ActorMovies.AnyAsync(ma =>
+            ma.ActorId == movieActorRel.ActorId &&
+            ma.MovieId == movieActorRel.MovieId &&
+            ma.Id != id);
 
+            if (exists)
+            {
+                ModelState.AddModelError("", "This actor/movie combination already exists.");
+            }
             if (ModelState.IsValid)
             {
                 try

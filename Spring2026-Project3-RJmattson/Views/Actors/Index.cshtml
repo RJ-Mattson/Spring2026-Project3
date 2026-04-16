@@ -43,7 +43,8 @@
                 @Html.DisplayFor(modelItem => item.Age)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Imbdlink)
+                    <a href="@item.Imbdlink" target="_blank" class="btn btn-sm btn-outline-info">
+                        View IMDb
             </td>
             <td>
                     @if(item.Photo != null)

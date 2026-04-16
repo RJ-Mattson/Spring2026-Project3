@@ -100,6 +100,7 @@ namespace Spring2026_Project3_RJmattson.Controllers
                 }
             }
             var errors = ModelState.Values.SelectMany(v => v.Errors);
+            ModelState.Remove("Photo");
             if (ModelState.IsValid)
             {
                 _context.Add(actor);
@@ -136,7 +137,7 @@ namespace Spring2026_Project3_RJmattson.Controllers
            {
                 return NotFound();
             }
-
+            ModelState.Remove("Photo");
             if (ModelState.IsValid)
             {
                 try

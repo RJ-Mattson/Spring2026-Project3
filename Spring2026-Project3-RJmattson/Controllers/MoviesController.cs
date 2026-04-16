@@ -102,6 +102,7 @@ namespace Spring2026_Project3_RJmattson.Controllers
                 }
 
             }
+            ModelState.Remove("Poster");
             if (ModelState.IsValid)
             {
                 _context.Add(movie);
@@ -138,7 +139,7 @@ namespace Spring2026_Project3_RJmattson.Controllers
             {
                 return NotFound();
             }
-
+            ModelState.Remove("Poster");
             if (ModelState.IsValid)
             {
                 try
